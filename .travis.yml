@@ -12,8 +12,12 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install beanstalkd -qq
   - sudo service beanstalkd start
+  - wget https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
+  - unzip protoc-3.0.0-linux-x86_64.zip
 install:
   - go get -u github.com/golang/lint/golint
+  - go get -u github.com/golang/protobuf/protoc-gen-go
+  - bin/protoc -I=. --go_out=furrow job.proto
   - mkdir /tmp/{in,out}
 script:
   - make build
