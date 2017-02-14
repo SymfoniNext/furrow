@@ -98,7 +98,7 @@ $jobs_tube = 'jobs';
 $beanstalkd_addr = 'beanstalkd:11300';
 
 $job = new Job;
-$job->setRequestID($_SERVER['X-REQUEST-ID);
+$job->setRequestID($_SERVER['X-REQUEST-ID']);
 $job->setImage("company/some-job:latest");
 
 $cmd = new RepeatedField(\Google\Protobuf\Internal\GPBType::STRING);
