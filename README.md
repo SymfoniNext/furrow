@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SymfoniNext/furrow.svg?branch=master)](https://travis-ci.org/SymfoniNext/furrow)
+
 Furrow
 ======
 
