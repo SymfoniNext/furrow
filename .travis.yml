@@ -1,0 +1,19 @@
+sudo: required
+language: go
+go:
+  - 1.7
+  - tip
+addons:
+  hosts:
+    - beanstalk
+services:
+  - docker
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install beanstalkd -qq
+  - sudo service beanstalkd start
+install:
+  - go get -u github.com/golang/lint/golint
+  - mkdir /tmp/{in,out}
+script:
+  - make build
