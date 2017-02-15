@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"net/http"
 	"os"
 	"os/signal"
 	"sync"
@@ -13,8 +14,11 @@ import (
 	"github.com/SymfoniNext/furrow/jobs"
 
 	log "github.com/Sirupsen/logrus"
+
 	docker "github.com/fsouza/go-dockerclient"
 	"github.com/namsral/flag"
+	metrics "github.com/rcrowley/go-metrics"
+	"github.com/rcrowley/go-metrics/exp"
 )
 
 var (
@@ -25,7 +29,8 @@ var (
 	beanstalkHost string
 	jobsTube      string
 
-	workers int
+	workers        int
+	publishMetrics string
 )
 
 // Job is for passing jobs from reader to worker
@@ -41,6 +46,7 @@ func init() {
 	flag.IntVar(&workers, "workers", 1, "Number of jobs to process at once")
 	flag.StringVar(&dockerUsername, "docker-username", "", "Username for access to Docker hub")
 	flag.StringVar(&dockerPassword, "docker-password", "", "Password for username")
+	flag.StringVar(&publishMetrics, "publish-metrics", "", "Bind address/port to publish metrics on")
 }
 
 func main() {
@@ -73,6 +79,16 @@ func main() {
 	runner := jobs.NewRunner(client, dockerUsername, dockerPassword)
 	go runner.Start()
 	//	defer runner.Stop()
+
+	jobTimer := metrics.GetOrRegisterTimer("job.execute_time", metrics.DefaultRegistry)
+	jobCounter := metrics.GetOrRegisterCounter("job.executed", metrics.DefaultRegistry)
+	if publishMetrics != "" {
+		log.Infof("Publishing metrics to %s\n", publishMetrics)
+		go func() {
+			exp.Exp(metrics.DefaultRegistry)
+			log.Warn(http.ListenAndServe(publishMetrics, http.DefaultServeMux))
+		}()
+	}
 
 	var wg sync.WaitGroup
 	for i := 0; i < workers; i++ {
@@ -112,6 +128,8 @@ func main() {
 							job.ctx, job.job = b.GetJob(ctx)
 							cancel, _ = broker.CancelFunc(job.ctx)
 							jobs <- job
+
+							jobCounter.Inc(1)
 						}()
 					}
 				}
@@ -123,8 +141,10 @@ func main() {
 				case <-stop:
 					return
 				case job := <-jobs:
-					status := runner.Run(job.ctx, job.job)
-					b.Finish(job.ctx, status)
+					jobTimer.Time(func() {
+						status := runner.Run(job.ctx, job.job)
+						b.Finish(job.ctx, status)
+					})
 				}
 			}
 
