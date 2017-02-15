@@ -30,6 +30,8 @@ First ensure `beanstalkd` is running.   Furrow is all about running jobs in Dock
 
 `-workers`: Number workers to run.  That is the number of jobs that can be processed simultaneously.  Each worker opens a connection to beanstalk.  Defaults to `1`.
 
+`-publish-metrics`: Address and port number to bind to and publish metrics on (starts HTTP server).
+
 
 Running as a container on single Docker instance:
 

@@ -129,7 +129,7 @@ func (b beanstalkBroker) GetJob(ctx context.Context) (context.Context, *furrow.J
 
 	tl, _ := strconv.ParseInt(stats["time-left"], 10, 64)
 	duration := time.Second * time.Duration(tl)
-	log.WithFields(logFields).Info("Setting deadline to %d\n", duration)
+	log.WithFields(logFields).Infof("Setting deadline to %d\n", duration)
 	ctx, cancel := context.WithTimeout(ctx, duration)
 	ctx = context.WithValue(ctx, "cancelFunc", cancel)
 
