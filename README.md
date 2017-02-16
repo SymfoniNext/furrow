@@ -123,6 +123,13 @@ An exit code != 0 will result in the job being marked as a failure and buried.
 
 Private image use have only been tested with Docker Hub.  Fill in the `docker-username` and `docker-password` flags with a relevant Docker hub account.
 
+## Metrics
+
+If enabled the following metrics will be collected and made available on the `/debug/metrics` endpoint.  This endpoint will also include the usual goodies that the `expvar` package exposes.
+
+* Jobs executed counter
+* Job execution timer
+
 
 # Further development of furrow
 
