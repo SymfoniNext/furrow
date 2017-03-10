@@ -19,6 +19,8 @@ var (
 	// Directory names to use for the in and out mounts in the container
 	volumeInMount  = "/in"
 	volumeOutMount = "/out"
+
+	ErrEmptyJob = errors.New("Empty job")
 )
 
 // Runner for executing jobs via Docker & containers
@@ -47,6 +49,16 @@ func NewRunner(docker *docker.Client, username string, password string) furrow.R
 }
 
 func (j jobRunner) Run(ctx context.Context, job *furrow.Job) furrow.JobStatus {
+	if job.GetImage() == "" {
+		log.Warnf("Received empty job: (%#v)", job)
+		return furrow.JobStatus{
+			Err: ErrEmptyJob,
+			// No point burying an empty job.
+			// But perhaps we need more verbose logging?
+			Bury: false,
+		}
+	}
+
 	jobID, _ := broker.JobID(ctx)
 	logFields := log.Fields{
 		"requestID": job.GetRequestID(),

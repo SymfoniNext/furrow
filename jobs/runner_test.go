@@ -41,6 +41,32 @@ func TestNewRunner(t *testing.T) {
 	t.Skip()
 }
 
+func TestRunErrorsWhenJobEmpty(t *testing.T) {
+	runner, err := runner()
+	if err != nil {
+		t.Skip()
+	}
+	go runner.Start()
+
+	ctx := context.Background()
+	done := make(chan furrow.JobStatus, 1)
+	job := &furrow.Job{}
+
+	go func() {
+		status := runner.Run(ctx, job)
+		done <- status
+	}()
+
+	select {
+	case status := <-done:
+		if status.Err != ErrEmptyJob {
+			t.Errorf("Expecting error '%s', got '%v'", ErrEmptyJob, status.Err)
+		}
+	case <-time.After(time.Second):
+		t.Error("Timed out")
+	}
+}
+
 func TestRunCanCancel(t *testing.T) {
 	runner, err := runner()
 	if err != nil {

@@ -126,6 +126,12 @@ func main() {
 							job := Job{}
 							ctx := context.Background()
 							job.ctx, job.job = b.GetJob(ctx)
+							// Should only get nil job because of reserve timeouts.
+							// It is therefore safe to just wait again for the next.
+							if job.job == nil {
+								getNextJob <- struct{}{}
+								return
+							}
 							cancel, _ = broker.CancelFunc(job.ctx)
 							jobs <- job
 
