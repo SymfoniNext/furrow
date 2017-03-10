@@ -85,8 +85,8 @@ func (b beanstalkBroker) GetJob(ctx context.Context) (context.Context, *furrow.J
 
 	ctx = context.WithValue(ctx, "ID", id)
 	if cerr, ok := err.(beanstalk.ConnError); ok {
-		logFields["error"] = cerr.Error()
-		log.WithFields(logFields).Warn("Error fetching job")
+		logFields["err"] = cerr.Error()
+		log.WithFields(logFields).Warn("Unable to fetch job")
 		switch cerr.Err {
 		case beanstalk.ErrDeadline:
 			// read next ...
