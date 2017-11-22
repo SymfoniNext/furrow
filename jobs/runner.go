@@ -102,8 +102,17 @@ func (j jobRunner) Run(ctx context.Context, job *furrow.Job) furrow.JobStatus {
 	var hostConfig *docker.HostConfig
 	if job.GetVolumes() != nil {
 		logFields["volumes"] = job.GetVolumes()
-		hostConfig = &docker.HostConfig{
-			Binds: []string{job.Volumes.GetIn() + ":" + volumeInMount, job.Volumes.GetOut() + ":" + volumeOutMount},
+		binds := make([]string, 0)
+		if job.Volumes.GetIn() != "" {
+			binds = append(binds, job.Volumes.GetIn()+":"+volumeInMount)
+		}
+		if job.Volumes.GetOut() != "" {
+			binds = append(binds, job.Volumes.GetIn()+":"+volumeOutMount)
+		}
+		if len(binds) > 0 {
+			hostConfig = &docker.HostConfig{
+				Binds: binds,
+			}
 		}
 	}
 
