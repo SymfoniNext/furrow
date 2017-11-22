@@ -1,3 +1,3 @@
-FROM alpine:3.4
+FROM alpine:3.6
 ADD _furrow /bin/furrow
 ENTRYPOINT ["/bin/furrow"]
