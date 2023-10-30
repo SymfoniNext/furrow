@@ -13,7 +13,7 @@ import (
 	"github.com/SymfoniNext/furrow/furrow"
 	"github.com/SymfoniNext/furrow/jobs"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	docker "github.com/fsouza/go-dockerclient"
 	"github.com/namsral/flag"

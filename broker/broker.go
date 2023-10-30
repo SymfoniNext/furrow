@@ -9,7 +9,7 @@ import (
 
 	"github.com/SymfoniNext/furrow/furrow"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"

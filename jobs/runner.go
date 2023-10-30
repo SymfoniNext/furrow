@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/SymfoniNext/furrow/broker"
 	"github.com/SymfoniNext/furrow/furrow"
 
