@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/SymfoniNext/furrow/furrow"
+	"github.com/SymfoniNext/furrow_next/furrow"
 
 	"github.com/namsral/flag"
 

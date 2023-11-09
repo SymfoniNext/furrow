@@ -7,9 +7,9 @@ import (
 
 	"context"
 
-	"github.com/SymfoniNext/furrow/furrow"
+	"github.com/SymfoniNext/furrow_next/furrow"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"

@@ -6,9 +6,9 @@ import (
 	"strings"
 	"sync"
 
-	log "github.com/Sirupsen/logrus"
-	"github.com/SymfoniNext/furrow/broker"
-	"github.com/SymfoniNext/furrow/furrow"
+	"github.com/SymfoniNext/furrow_next/broker"
+	"github.com/SymfoniNext/furrow_next/furrow"
+	log "github.com/sirupsen/logrus"
 
 	"context"
 

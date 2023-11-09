@@ -18,7 +18,7 @@ test:
 
 
 build: test
-	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-X 'github.com/SymfoniNext/furrow/furrow.buildDate=$(DATE)' -X github.com/SymfoniNext/furrow/furrow.commitID=$(GITCOMMIT) -w -extld ld -extldflags -static" -x -o $(TARGET) .
+	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-X 'github.com/SymfoniNext/furrow_next/furrow.buildDate=$(DATE)' -X github.com/SymfoniNext/furrow_next/furrow.commitID=$(GITCOMMIT) -w -extld ld -extldflags -static" -x -o $(TARGET) .
 
 docker: build
 	docker build -t $(IMAGE):$(GITCOMMIT) .

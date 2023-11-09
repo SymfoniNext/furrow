@@ -7,7 +7,7 @@ import (
 
 	"context"
 
-	"github.com/SymfoniNext/furrow/furrow"
+	"github.com/SymfoniNext/furrow_next/furrow"
 	"github.com/golang/protobuf/proto"
 	"github.com/kr/beanstalk"
 )

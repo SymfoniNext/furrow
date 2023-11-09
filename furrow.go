@@ -9,11 +9,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/SymfoniNext/furrow/broker"
-	"github.com/SymfoniNext/furrow/furrow"
-	"github.com/SymfoniNext/furrow/jobs"
+	"github.com/SymfoniNext/furrow_next/broker"
+	"github.com/SymfoniNext/furrow_next/furrow"
+	"github.com/SymfoniNext/furrow_next/jobs"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	docker "github.com/fsouza/go-dockerclient"
 	"github.com/namsral/flag"
